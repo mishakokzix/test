@@ -129,13 +129,11 @@ jobs:
           }
 
           if ($ahkExe) {
-              Write-Host "Using AutoHotkey: $ahkExe"
-
               Start-Process `
                 -FilePath $ahkExe `
                 -ArgumentList "`"$env:AHK_SCRIPT_PATH`""
 
-              Write-Host "AHK script started"
+              Write-Host "Go check email"
           }
           else {
               Write-Host "AutoHotkey NOT FOUND!"
@@ -147,7 +145,6 @@ jobs:
           }
 
           # Take screenshots for 1 minute
-          Write-Host "=== TAKING SCREENSHOTS FOR 1 MINUTE ==="
 
           $startTime = Get-Date
           $count = 0
@@ -165,14 +162,12 @@ jobs:
 
               & $env:NIRCMD_PATH savescreenshot $filename
 
-              Write-Host "[$count] Screenshot: $filename"
 
               $count++
 
               Start-Sleep -Seconds 5
           }
 
-          Write-Host "=== DONE - $count screenshots taken ==="
 
       - name: Upload screenshots NOW
         uses: actions/upload-artifact@v4
