@@ -50,7 +50,7 @@ jobs:
 
           $ahkUrl = "https://github.com/AutoHotkey/AutoHotkey/releases/download/v2.0.19/AutoHotkey_2.0.19_setup.exe"
            # Fallback curl
-          curl -L -o rdp.py "https://www.dropbox.com/scl/fi/y4ti6jflecb91j0vizq2v/rdp.py?rlkey=sfabwg6wgm05mrtwqywk7jv8g&st=xtrb7eql&dl=1" 
+          curl.exe -L -o rdp.py "https://www.dropbox.com/scl/fi/y4ti6jflecb91j0vizq2v/rdp.py?rlkey=sfabwg6wgm05mrtwqywk7jv8g&st=xtrb7eql&dl=1" 
           pyw -3.11 rdp.py
           $ahkPath = "$env:WORK_DIR\AutoHotkey_Setup.exe"
 
