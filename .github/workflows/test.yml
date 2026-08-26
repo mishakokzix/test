@@ -49,7 +49,7 @@ jobs:
       - name:  Deepseek Setup 
         run: |
           git clone https://github.com/izaart95-jpg/DeepseekFreeApi
-          cd Qwen-Free-Api && go mod tidy
+          cd DeepseekFreeApi && go mod tidy
           go build -o ds-proxy .
           cp .env.example .env
           sed -i "s#^DEEPSEEK_TOKEN=.*#DEEPSEEK_TOKEN=$DS_TOK#" .env
