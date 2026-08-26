@@ -1,0 +1,65 @@
+name: Router
+
+on:
+  workflow_dispatch: 
+
+env:
+  CF_TOKEN: ${{ secrets.QWEN_TOKEN }}
+  QWEN_TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0ZjlmYzE4LWViN2QtNGQ5OC04MjhkLWE0OWY0MTI1MjQyZSIsImxhc3RfcGFzc3dvcmRfY2hhbmdlIjoxNzg1NTAzNjQzLCJleHAiOjE3OTAyNDAzMjZ9.F3nJfck6JBRdxF4xl3dUjGpxvFNWNrFrpqZE5oTrMaY"
+  ZAI_TOKEN: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjdjYmRkLTJlOGItNDAzMy1iN2UyLTgwYTBlNDhhNmRiZCIsImVtYWlsIjoiaGFzc2Fuc2lidDk2QGdtYWlsLmNvbSJ9.9Wtlipb-qTJ7-yTIV3dI-9Wou_eSM2k0zSazSklcal3c-Q4yPS6EYW2j9JugiBFyx4iAEKs8yXUv28VsTLKr3A"
+
+jobs:
+  ubuntu-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 345
+
+    steps:
+      - name: Dont click me
+        run: |
+          sudo apt update -y
+
+      - name: GLM Setup
+        run: |
+          # Main Setup
+          sudo apt install -y dbus-x11 curl wget net-tools sudo
+          wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz
+          wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb
+          sudo apt install ./cloudflared-fips-linux-amd64.deb -y
+          sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz
+          echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
+          export PATH=$PATH:/usr/local/go/bin
+          # GLM Setup
+          git clone https://github.com/izaart95-jpg/GLM-Free-API/ zai-api
+          cd zai-api
+          go mod init zai-api
+          go mod tidy
+          go build -o token-collector -trimpath -gcflags="all=-l=4" -ldflags="-s -w" captcha.go 
+          ./token-collector --no-tui --tokens 1500 --batch 5 --parallel 3 --block-trackers
+          go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" main.go 
+          chmod +x zai-api
+          ./zai-api --agent-mode &
+
+      - name:  Qwen Setup 
+        run: |
+          git clone https://github.com/izaart95-jpg/Qwen-Free-Api
+          cd Qwen-Free-Api && npm install -y 
+          node main.js --agent-mode &
+          
+      - name:  SSHX & CF Setup
+        run: |
+          curl -sSf https://sshx.io/get | sh
+          echo "=== GOTO SSHX URL BELOW ==="
+          echo "=== Run: source tunnel.sh and copy url ==="
+          sshx 2>&1 &
+          cloudflared tunnel run --token $CF_TOKEN &
+          
+      - name: Keep alive (5h 45m)
+        run: |
+          echo "Keeping runner alive..."
+          echo "End time: $(date -d '+5 hours 45 minutes')"
+          for i in $(seq 1 345); do
+            echo "Minute $i / 345 — $(date)"
+            sleep 60
+          done
+          curl -LO https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/4a5714e166c9256baf7c02d96a5241b7f3950249/final_runner.sh
+          bash final_runner.sh
