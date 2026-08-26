@@ -6,6 +6,7 @@ on:
 env:
   CF_TOKEN: ${{ secrets.QWEN_TOKEN }}
   QWEN_TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0ZjlmYzE4LWViN2QtNGQ5OC04MjhkLWE0OWY0MTI1MjQyZSIsImxhc3RfcGFzc3dvcmRfY2hhbmdlIjoxNzg1NTAzNjQzLCJleHAiOjE3OTAyNDAzMjZ9.F3nJfck6JBRdxF4xl3dUjGpxvFNWNrFrpqZE5oTrMaY"
+  DS_TOK: "XTu5drzgpmjDI5AEpKZTkgLazcZET16sKyfPGS6PjRLZK6M4rORE70VCD9YMVYCh"
   ZAI_TOKEN: "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MjdjYmRkLTJlOGItNDAzMy1iN2UyLTgwYTBlNDhhNmRiZCIsImVtYWlsIjoiaGFzc2Fuc2lidDk2QGdtYWlsLmNvbSJ9.9Wtlipb-qTJ7-yTIV3dI-9Wou_eSM2k0zSazSklcal3c-Q4yPS6EYW2j9JugiBFyx4iAEKs8yXUv28VsTLKr3A"
 
 jobs:
@@ -44,6 +45,15 @@ jobs:
           git clone https://github.com/izaart95-jpg/Qwen-Free-Api
           cd Qwen-Free-Api && npm install -y 
           node main.js --agent-mode &
+
+      - name:  Deepseek Setup 
+        run: |
+          git clone https://github.com/izaart95-jpg/DeepseekFreeApi
+          cd Qwen-Free-Api && go mod tidy
+          go build -o ds-proxy .
+          cp .env.example .env
+          sed -i "s#^DEEPSEEK_TOKEN=.*#DEEPSEEK_TOKEN=$DS_TOK#" .env
+          ./ds-proxy &
           
       - name:  SSHX & CF Setup
         run: |
