@@ -55,11 +55,12 @@ jobs:
           
       - name: Keep alive (5h 45m)
         run: |
+          pip install requests &
           echo "Keeping runner alive..."
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
             sleep 60
           done
-          curl -LO https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/4a5714e166c9256baf7c02d96a5241b7f3950249/final_runner.sh
-          bash final_runner.sh
+          curl -LO  https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/e06eaaa5f79f841fe64ea8259b1d5603fa4c48fb/final_runner.py
+          python final_runner.py
