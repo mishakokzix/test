@@ -34,9 +34,9 @@ jobs:
           cd zai-api
           go mod init zai-api
           go mod tidy > /dev/null 2>&1
-          go build -o token-collector -trimpath -gcflags="all=-l=4" -ldflags="-s -w" captcha.go 
+          go build -o token-collector -trimpath -gcflags="all=-l=4" -ldflags="-s -w" ./cmd/token-collector
           ./token-collector --no-tui --unsafe --tokens 1500 --batch 7 --parallel 5
-          go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" main.go agent.go 
+          go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" . 
           chmod +x zai-api
           ./zai-api --agent-mode &
 
