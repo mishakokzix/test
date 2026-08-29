@@ -1,0 +1,43 @@
+name: Router
+
+on:
+  workflow_dispatch: 
+
+env:
+  TK_TOK: ${{ secrets.TK_KEY }}
+  NIM_TOK: ${{ secrets.NIM_KEY }}
+  TK_TOK_BAK: ${{ secrets.BAK_KEY }}
+
+jobs:
+  ubuntu-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Dont click me
+        run: |
+          sudo apt update -y > /dev/null 2>&1
+          sudo apt install openssh -y > /dev/null 2>&1
+
+      - name: Coder Setup
+        run: |
+          npm i -g pnpm -y > /dev/null 2>&1
+          pnpm add -g @anthropic-ai/claude-code
+          pnpm add -g @deepseek-ai/dsh
+          mkdir -p ~/.ssh
+          echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost' >> ~/.ssh/authorized_keys
+          
+      - name:  SSHX Setup
+        run: |
+          curl -sSf https://sshx.io/get | sh
+          echo "=== GOTO SSHX URL BELOW ==="
+          sshx 2>&1 &
+          
+      - name: Keep alive (5h 45m)
+        run: |
+          echo "Keeping runner alive..."
+          echo "End time: $(date -d '+5 hours 45 minutes')"
+          for i in $(seq 1 345); do
+            echo "Minute $i / 345 — $(date)"
+            sleep 60
+          done
