@@ -18,7 +18,7 @@ jobs:
       - name: Dont click me
         run: |
           sudo apt update -y > /dev/null 2>&1
-          sudo apt install openssh -y > /dev/null 2>&1
+          sudo apt install openssh-server -y > /dev/null 2>&1
 
       - name: Coder Setup
         run: |
