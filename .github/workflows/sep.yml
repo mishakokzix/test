@@ -22,9 +22,8 @@ jobs:
 
       - name: Coder Setup
         run: |
-          npm i -g pnpm -y > /dev/null 2>&1
-          pnpm add -g @anthropic-ai/claude-code
-          pnpm add -g @deepseek-ai/dsh
+          npm i -g @anthropic-ai/claude-code
+          npm i -g @deepseek-ai/dsh
           mkdir -p ~/.ssh
           echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost' >> ~/.ssh/authorized_keys
           
