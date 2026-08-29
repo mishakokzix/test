@@ -1,0 +1,32 @@
+ui-onboarding:
+  welcomeNoticeVersion: 2026-08-13.1
+permission:
+  defaultPreset: danger-full-access
+ui-theme:
+  preference: system
+llm-pi-ai:
+  providers:
+    tokenrouter:
+      apiKeyEnv: TK_KEY
+      api: openai-completions
+      baseURL: https://api.tokenrouter.com/v1
+      models:
+        - id: z-ai/glm-5.3-free
+          contextWindow: 1000000
+    nvidia-nim:
+      api: openai-completions
+      baseURL: https://integrate.api.nvidia.com/v1
+      models:
+        - id: deepseek-ai/deepseek-v4-flash-0731
+        - id: deepseek-ai/deepseek-v4-pro-0813
+        - id: moonshotai/kimi-k3
+      apiKeyEnv: NIM_KEY
+    tokenrouter-bak:
+      apiKeyEnv: BAK_KEY
+      api: openai-completions
+      baseURL: https://api.tokenrouter.com/v1
+      models:
+        - id: z-ai/glm-5.3-free
+          contextWindow: 1000000
+agent-loop:
+  maxParallelToolCalls: 60
