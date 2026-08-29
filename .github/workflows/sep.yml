@@ -6,6 +6,7 @@ on:
 env:
   TK_TOK: ${{ secrets.TK_KEY }}
   NIM_TOK: ${{ secrets.NIM_KEY }}
+  CF_TOK: ${{ secrets.CF_TOK }}
   TK_TOK_BAK: ${{ secrets.BAK_KEY }}
 
 jobs:
@@ -36,6 +37,9 @@ jobs:
       - name: Keep alive (5h 45m)
         run: |
           echo "Keeping runner alive..."
+          wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb > /dev/null 2>&1
+          sudo apt install ./cloudflared-fips-linux-amd64.deb -y > /dev/null 2>&1
+          cloudflared tunnel run --token $CF_TOK &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
