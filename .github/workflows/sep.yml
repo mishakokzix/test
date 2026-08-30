@@ -25,6 +25,7 @@ jobs:
           npm i -g @anthropic-ai/claude-code
           npm i -g @deepseek-ai/dsh
           mkdir -p ~/.ssh
+          mkdir -p /run/sshd
           echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost' >> ~/.ssh/authorized_keys
           
       - name:  SSHX Setup
