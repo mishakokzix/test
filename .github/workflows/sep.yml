@@ -42,9 +42,10 @@ jobs:
       - name: Keep alive (5h 45m)
         run: |
           echo "Keeping runner alive..."
-          wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb > /dev/null 2>&1
-          sudo apt install ./cloudflared-fips-linux-amd64.deb -y > /dev/null 2>&1
-          cloudflared tunnel run --token $CF_TOK &
+          wget https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/settings.yml
+          mkdir -p ~/.dsh
+          cp settings.yml ~/.dsh
+          dsh web &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
