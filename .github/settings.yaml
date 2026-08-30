@@ -7,7 +7,7 @@ ui-theme:
 llm-pi-ai:
   providers:
     tokenrouter:
-      apiKeyEnv: TK_KEY
+      apiKeyEnv: TK_TOK
       api: openai-completions
       baseURL: https://api.tokenrouter.com/v1
       models:
@@ -20,9 +20,9 @@ llm-pi-ai:
         - id: deepseek-ai/deepseek-v4-flash-0731
         - id: deepseek-ai/deepseek-v4-pro-0813
         - id: moonshotai/kimi-k3
-      apiKeyEnv: NIM_KEY
+      apiKeyEnv: NIM_TOK
     tokenrouter-bak:
-      apiKeyEnv: BAK_KEY
+      apiKeyEnv: TK_TOK_BAK
       api: openai-completions
       baseURL: https://api.tokenrouter.com/v1
       models:
