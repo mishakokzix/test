@@ -23,7 +23,6 @@ jobs:
       - name: Coder Setup
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh
-          npm i -g @anthropic-ai/claude-code
           npm i -g @deepseek-ai/dsh
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
@@ -31,12 +30,12 @@ jobs:
           sudo bash -c 'touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost" >> ~/.ssh/authorized_keys'
           export B64="dHNrZXktYXV0aC1rSDE3TERBeVYxMjFDTlRSTC05TVRhdDY4bXN2RGFCS05NUUhhMndEbUdKaTlkcURkTg=="
           export TAIL=$(echo $B64 | base64 -d)
-          echo 'export ANTHROPIC_BASE_URL=https://api.tokenrouter.com/v1' >> ~/ant.sh
-          echo "export ANTHROPIC_AUTH_TOKEN=$NIM_TOK" >> ~/ant.sh
-          echo 'export ANTHROPIC_DEFAULT_OPUS_MODEL=moonshotai/kimi-k3' >> ~/ant.sh
-          echo 'export ANTHROPIC_BASE_URL=https://api.tokenrouter.com/v1' >> ~/tr.sh
-          echo "export ANTHROPIC_AUTH_TOKEN=$TK_TOK" >> ~/tr.sh
-          echo 'export ANTHROPIC_DEFAULT_MODEL=z-ai/glm-5.3-free' >> ~/tr.sh
+          sudo echo 'export ANTHROPIC_BASE_URL=https://api.tokenrouter.com/v1' >> /root/ant.sh
+          sudo echo "export ANTHROPIC_AUTH_TOKEN=$NIM_TOK" >> /root/ant.sh
+          sudo echo 'export ANTHROPIC_DEFAULT_OPUS_MODEL=moonshotai/kimi-k3' >> /root/ant.sh
+          sudo echo 'export ANTHROPIC_BASE_URL=https://api.tokenrouter.com/v1' >> /root/tr.sh
+          sudo echo "export ANTHROPIC_AUTH_TOKEN=$TK_TOK" >> /root/tr.sh
+          sudo echo 'export ANTHROPIC_DEFAULT_MODEL=z-ai/glm-5.3-free' >> /root/tr.sh
           sudo tailscale up --authkey=$TAIL --hostname=coder-host --accept-routes=true
           
       - name:  SSHX Setup
@@ -49,8 +48,8 @@ jobs:
         run: |
           echo "Keeping runner alive..."
           wget https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/settings.yml
-          mkdir -p ~/.dsh
-          cp settings.yml ~/.dsh
+          sudo mkdir -p /root/.dsh
+          sudo cp settings.yml /root/.dsh
           dsh web &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
