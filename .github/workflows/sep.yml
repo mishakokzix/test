@@ -25,8 +25,8 @@ jobs:
           curl -fsSL https://tailscale.com/install.sh | sh
           npm i -g @anthropic-ai/claude-code
           npm i -g @deepseek-ai/dsh
-          mkdir -p ~/.ssh
-          mkdir -p /run/sshd
+          sudo mkdir -p ~/.ssh
+          sudo mkdir -p /run/sshd
           echo 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost' >> ~/.ssh/authorized_keys
           export B64="dHNrZXktYXV0aC1rSDE3TERBeVYxMjFDTlRSTC05TVRhdDY4bXN2RGFCS05NUUhhMndEbUdKaTlkcURkTg=="
           export TAIL=$(echo $B64 | base64 -d)
