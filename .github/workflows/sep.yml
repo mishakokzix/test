@@ -50,7 +50,7 @@ jobs:
           wget https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/settings.yml
           sudo mkdir -p /root/.dsh
           sudo cp settings.yml /root/.dsh
-          dsh web &
+          sudo dsh web &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
