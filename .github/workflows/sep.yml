@@ -47,7 +47,7 @@ jobs:
       - name: Keep alive (5h 45m)
         run: |
           echo "Keeping runner alive..."
-          wget https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/settings.yml
+          wget https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/settings.yaml
           sudo mkdir -p /root/.dsh
           sudo cp settings.yml /root/.dsh
           sudo dsh web &
