@@ -33,8 +33,8 @@ jobs:
           export TAIL=$(echo $B64 | base64 -d)
           echo 'export ANTHROPIC_BASE_URL=https://api.tokenrouter.com/v1' >> ant.sh
           echo 'export ANTHROPIC_AUTH_TOKEN=$NIM_KEY' >> ant.sh
-          echo 'export ANTHROPIC_DEFAULT_OPUS_MODEL=moonshotai/kimi-k3"
-          echo 'export ANTHROPIC_BASE_URL= ' >> tr.sh
+          echo 'export ANTHROPIC_DEFAULT_OPUS_MODEL=moonshotai/kimi-k3' >> ant.sh
+          echo 'export ANTHROPIC_BASE_URL=https://api.tokenrouter.com/v1' >> tr.sh
           echo 'export ANTHROPIC_AUTH_TOKEN=$TK_KEY' >> tr.sh
           echo 'export ANTHROPIC_DEFAULT_MODEL=z-ai/glm-5.3-free' >> tr.sh
           sudo tailscale up --authkey=$TAIL --hostname=coder-host --accept-routes=true
