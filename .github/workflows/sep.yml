@@ -24,11 +24,12 @@ jobs:
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh
           sudo npm i -g @deepseek-ai/dsh
-          sudo npm i -g pnpm
-          sudo bash -c "SHELL=/bin/bash pnpm setup"
+          sudo -i 
+          npm i -g pnpm
+          SHELL=/bin/bash pnpm setup
           export PNPM_HOME="/root/.local/share/pnpm"
           export PATH="$PNPM_HOME/bin:$PATH"
-          sudo pnpm config set --global dangerouslyAllowAllBuilds true
+          pnpm config set --global dangerouslyAllowAllBuilds true
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
           sudo mkdir -p /run/sshd
