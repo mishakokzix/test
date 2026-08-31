@@ -26,8 +26,6 @@ jobs:
           sudo npm i -g @deepseek-ai/dsh
           sudo npm i -g pnpm
           export PATH="$HOME/.local/share/pnpm:$PATH"
-          source ~/.bashrc
-          SHELL=/bin/bash sudo pnpm setup
           pnpm config set --global ignore-scripts false
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
