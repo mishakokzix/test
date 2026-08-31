@@ -28,7 +28,7 @@ jobs:
           SHELL=/bin/bash sudo pnpm setup
           export PNPM_HOME="/root/.local/share/pnpm"
           export PATH="$PNPM_HOME/bin:$PATH"
-          pnpm config set --global dangerouslyAllowAllBuilds true
+          sudo pnpm config set --global dangerouslyAllowAllBuilds true
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
           sudo mkdir -p /run/sshd
