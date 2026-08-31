@@ -25,6 +25,7 @@ jobs:
           curl -fsSL https://tailscale.com/install.sh | sh
           sudo npm i -g @deepseek-ai/dsh
           sudo npm i -g pnpm
+          export PATH="$HOME/.local/share/pnpm:$PATH"
           source ~/.bashrc
           SHELL=/bin/bash sudo pnpm setup
           pnpm config set --global ignore-scripts false
