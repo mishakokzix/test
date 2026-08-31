@@ -28,7 +28,9 @@ jobs:
           sudo npm i -g pnpm > /dev/null 2>&1
           sudo tmux new-session -d -s pnpm_setup
           sudo tmux send-keys -t pnpm_setup "whoami" C-m
+          sleep 2
           sudo tmux send-keys -t pnpm_setup "pnpm setup" C-m
+          sleep 5
           sudo tmux capture-pane -p -t pnpm_setup
           sudo pnpm config set --global dangerouslyAllowAllBuilds true
           sudo mkdir -p ~/.ssh
