@@ -24,10 +24,6 @@ jobs:
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh
           sudo npm i -g @deepseek-ai/dsh
-          sudo npm i -g pnpm
-          export PATH="$HOME/.local/share/pnpm:$PATH"
-          pnpm setup
-          pnpm config set --global ignore-scripts false
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
           sudo mkdir -p /run/sshd
@@ -54,7 +50,6 @@ jobs:
           wget https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/settings.yaml
           sudo mkdir -p /root/.dsh
           sudo mv settings.yaml /root/.dsh
-          dsh plugin --profile web add github:zhu1090093659/dsh-web
           sudo dsh web &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
