@@ -22,11 +22,14 @@ jobs:
 
       - name: Coder Setup
         run: |
-          curl -fsSL https://tailscale.com/install.sh | sh
-          sudo npm i -g @deepseek-ai/dsh
-          sudo bash -c "npm i -g pnpm && pnpm setup"
-          export PNPM_HOME="/root/.local/share/pnpm"
-          export PATH="$PNPM_HOME/bin:$PATH" 
+          curl -fsSL https://tailscale.com/install.sh | sh > /dev/null 2>&1
+          sudo apt install tmux -y > /dev/null 2>&1
+          sudo npm i -g @deepseek-ai/dsh > /dev/null 2>&1
+          sudo npm i -g pnpm > /dev/null 2>&1
+          sudo tmux new-session -d -s pnpm_setup
+          tmux send-keys -t pnpm_setup "whoami" C-m
+          tmux send-keys -t pnpm_setup "pnpm setup" C-m
+          tmux capture-pane -p -t pnpm_setup
           sudo pnpm config set --global dangerouslyAllowAllBuilds true
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
