@@ -27,9 +27,9 @@ jobs:
           sudo npm i -g @deepseek-ai/dsh > /dev/null 2>&1
           sudo npm i -g pnpm > /dev/null 2>&1
           sudo tmux new-session -d -s pnpm_setup
-          tmux send-keys -t pnpm_setup "whoami" C-m
-          tmux send-keys -t pnpm_setup "pnpm setup" C-m
-          tmux capture-pane -p -t pnpm_setup
+          sudo tmux send-keys -t pnpm_setup "whoami" C-m
+          sudo tmux send-keys -t pnpm_setup "pnpm setup" C-m
+          sudo tmux capture-pane -p -t pnpm_setup
           sudo pnpm config set --global dangerouslyAllowAllBuilds true
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
