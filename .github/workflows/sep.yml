@@ -23,9 +23,10 @@ jobs:
       - name: Coder Setup
         run: |
           curl -fsSL https://tailscale.com/install.sh | sh
-          npm i -g @deepseek-ai/dsh
-          npm i -g pnpm
-          SHELL=/bin/bash pnpm setup
+          sudo npm i -g @deepseek-ai/dsh
+          sudo npm i -g pnpm
+          sudo source ~/.bashrc
+          SHELL=/bin/bash sudo pnpm setup
           pnpm config set --global ignore-scripts false
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
