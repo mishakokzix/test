@@ -59,7 +59,7 @@ jobs:
           sudo mkdir -p /root/.dsh
           sudo mv settings.yaml /root/.dsh
           pnpm config set dangerouslyAllowAllBuilds true
-          sudo dsh plugin --profile web add dsh-better-sidebar@latest
+          sudo dsh plugin --profile web add @linxin666/dsh-web-all@latest
           sudo dsh web &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
