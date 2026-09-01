@@ -27,7 +27,7 @@ jobs:
           sudo npm i -g @deepseek-ai/dsh > /dev/null 2>&1
           sudo npm i -g pnpm > /dev/null 2>&1
           sudo tmux new-session -d -s pnpm_setup
-          sudo tmux send-keys -t pnpm_setup "pnpm setup" C-m
+          sudo tmux send-keys -t pnpm_setup "pnpm setup > /dev/null 2>&1" C-m
           sleep 3
           sudo tmux send-keys -t pnpm_setup "pnpm config set --global dangerouslyAllowAllBuilds true" C-m
           sleep 5
@@ -59,7 +59,7 @@ jobs:
           sudo mkdir -p /root/.dsh
           sudo mv settings.yaml /root/.dsh
           pnpm config set dangerouslyAllowAllBuilds true
-          sudo dsh plugin --profile web add @linxin666/dsh-web-all@latest
+          sudo dsh plugin --profile web add dsh-better-sidebar@latest
           sudo dsh web &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
