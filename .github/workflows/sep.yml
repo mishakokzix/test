@@ -32,7 +32,7 @@ jobs:
           sudo tmux send-keys -t pnpm_setup "pnpm setup" C-m
           sleep 5
           sudo tmux capture-pane -p -t pnpm_setup
-          sudo pnpm config set --global dangerouslyAllowAllBuilds true
+          sudo tmux send-keys -t pnpm_setup "pnpm config set --global dangerouslyAllowAllBuilds true" C-m
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
           sudo mkdir -p /run/sshd
