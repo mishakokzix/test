@@ -25,16 +25,11 @@ jobs:
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
           echo "Starting VPN"
-          sudo tmux new-session -d -s vpn_setup
-          curl ifconfig.me
-          sudo tmux send-keys -t vpn_setup "sudo wg-quick up /etc/wireguard/protonvpn-us.conf" C-m
-          curl -s ifconfig.me
+          sudo wg-quick up /etc/wireguard/protonvpn-us.conf    
 
       - name: GLM Setup
         run: |
           # Main Setup
-          sudo tmux capture-pane -p -t vpn_setup
-          sleep 5
           sudo apt install -y dbus-x11 curl wget net-tools sudo > /dev/null 2>&1
           wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz > /dev/null 2>&1
           wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb > /dev/null 2>&1
