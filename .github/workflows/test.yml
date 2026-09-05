@@ -21,9 +21,9 @@ jobs:
           echo "Updated.."
           sudo apt install openvpn tmux -y > /dev/null 2>&1
           echo "Installed deps.."
-          curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/d05d807f25bd7ce6280e3730a18a338437465ffa/proton.udp.ovpn > /dev/null 2>&1
+          curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
           echo "Starting VPN"
-          sudo openvpn --config ./proton.udp.ovpn --daemon
+          sudo openvpn --config ./proton.udp.ovpn --daemon && echo "fucked git"
 
       - name: GLM Setup
         run: |
