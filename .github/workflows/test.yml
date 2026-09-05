@@ -22,7 +22,12 @@ jobs:
           sudo curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/e056382228c05c827d6f096367391ddf6d9f23fb/protonvpn-us.conf > /dev/null 2>&1
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
-          sudo systemctl enable --now wg-quick@protonvpn-us
+          echo "IP Before:"
+          curl ifconfig.me
+          echo ""
+          sudo wg-quick up protonvpn-us
+          echo "Checking DNS"
+          curl https://chat.z.ai 
 
       - name: GLM Setup
         run: |
