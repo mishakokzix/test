@@ -25,7 +25,9 @@ jobs:
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
           echo "Starting VPN"
-          sudo wg-quick up /etc/wireguard/protonvpn-us.conf    
+          nohup sudo wg-quick up /etc/wireguard/protonvpn-us.conf &
+          sleep 60
+          echo "fuck"
 
       - name: GLM Setup
         run: |
