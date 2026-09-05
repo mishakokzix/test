@@ -42,7 +42,7 @@ jobs:
           ./token-collector --no-tui --unsafe --tokens 1500 --batch 10 --parallel 5
           go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" . 
           chmod +x zai-api
-          ./zai-api --agent-mode &
+          #./zai-api --agent-mode &
 
       - name:  Qwen Setup 
         run: |
@@ -70,6 +70,8 @@ jobs:
         run: |
           echo "Keeping runner alive..."
           echo "End time: $(date -d '+5 hours 45 minutes')"
+          cd zai-api
+          ./zai-api --agent-mode 
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
             sleep 60
