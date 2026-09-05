@@ -19,15 +19,11 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           echo "Updated.."
-          sudo apt install wireguard tmux -y > /dev/null 2>&1
+          sudo apt install openvpn tmux -y > /dev/null 2>&1
           echo "Installed deps.."
-          curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/431ea1a69980f28fe1d506aff22df9dee57192ff/protonvpn-us.conf > /dev/null 2>&1
-          sudo mv protonvpn-us.conf /etc/wireguard
-          sudo chmod 600 /etc/wireguard/protonvpn-us.conf
+          curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/d05d807f25bd7ce6280e3730a18a338437465ffa/proton.udp.ovpn > /dev/null 2>&1
           echo "Starting VPN"
-          nohup sudo wg-quick up /etc/wireguard/protonvpn-us.conf &
-          sleep 60
-          echo "fuck"
+          sudo openvpn --config ./proton.udp.ovpn --daemon
 
       - name: GLM Setup
         run: |
