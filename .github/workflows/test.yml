@@ -71,7 +71,7 @@ jobs:
           echo "Keeping runner alive..."
           echo "End time: $(date -d '+5 hours 45 minutes')"
           cd zai-api
-          ./zai-api --agent-mode --verbose
+          ./zai-api --agent-mode --verbose --sync-mode
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
             sleep 60
