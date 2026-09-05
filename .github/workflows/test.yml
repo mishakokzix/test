@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           echo "Updated.."
-          sudo apt install wireguard > /dev/null 2>&1
+          sudo apt install wireguard -y > /dev/null 2>&1
           echo "Installed deps.."
           curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/431ea1a69980f28fe1d506aff22df9dee57192ff/protonvpn-us.conf > /dev/null 2>&1
           sudo mv protonvpn-us.conf /etc/wireguard
