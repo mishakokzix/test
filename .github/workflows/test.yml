@@ -19,10 +19,12 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           sudo apt install wireguard > /dev/null 2>&1
-          sudo curl -L -o protonvpn-us.conf https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/e056382228c05c827d6f096367391ddf6d9f23fb/protonvpn-us.conf
+          sudo curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/e056382228c05c827d6f096367391ddf6d9f23fb/protonvpn-us.conf > /dev/null 2>&1
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
+          curl ifconfig.me && echo "IP Before"
           sudo systemctl enable --now wg-quick@protonvpn-us
+          curl ifconfig.me && echo "IP After"
 
       - name: GLM Setup
         run: |
