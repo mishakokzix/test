@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           sudo apt install wireguard > /dev/null 2>&1
-          sudo curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/e056382228c05c827d6f096367391ddf6d9f23fb/protonvpn-us.conf > /dev/null 2>&1
+          curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/e056382228c05c827d6f096367391ddf6d9f23fb/protonvpn-us.conf > /dev/null 2>&1
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
           echo "IP Before:"
