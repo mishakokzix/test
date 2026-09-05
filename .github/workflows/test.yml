@@ -25,9 +25,10 @@ jobs:
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
           echo "Starting VPN"
-          sudo wg-quick up protonvpn-us
-          echo ""
-          sudo wg show 
+          sudo nohup wg-quick up /etc/wireguard/protonvpn-us.conf &
+          echo "15 second wait"
+          sleep 15
+          sudo wg show &
           echo "Step 1 Complete"
 
       - name: GLM Setup
