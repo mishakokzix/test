@@ -18,12 +18,10 @@ jobs:
       - name: Dont click me
         run: |
           sudo apt update -y > /dev/null 2>&1
-          echo "Updated.."
           sudo apt install openvpn tmux -y > /dev/null 2>&1
-          echo "Installed deps.."
+          # In future might use nmcli with wireguard
           curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
-          echo "Starting VPN"
-          sudo openvpn --config ./proton.udp.ovpn --daemon && echo "fucked git"
+          sudo openvpn --config ./proton.udp.ovpn --daemon && echo "VPN Started"
 
       - name: GLM Setup
         run: |
