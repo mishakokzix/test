@@ -26,12 +26,9 @@ jobs:
           curl -sSf https://sshx.io/get | sh
           echo "=== GOTO SSHX URL BELOW ==="
           sshx 2>&1 &
-          echo "IP Before:"
-          curl ifconfig.me
           echo ""
           sudo wg-quick up protonvpn-us
-          echo "Checking DNS"
-          nslookup chat.z.ai 
+          sudo wg show 
 
       - name: GLM Setup
         run: |
