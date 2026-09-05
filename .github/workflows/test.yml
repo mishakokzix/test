@@ -23,12 +23,10 @@ jobs:
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo wc -c /etc/wireguard/protonvpn-us.conf
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
-          curl -sSf https://sshx.io/get | sh
-          echo "=== GOTO SSHX URL BELOW ==="
-          sshx 2>&1 &
-          echo ""
           sudo wg-quick up protonvpn-us
+          echo ""
           sudo wg show 
+          echo "Step 1 Complete"
 
       - name: GLM Setup
         run: |
