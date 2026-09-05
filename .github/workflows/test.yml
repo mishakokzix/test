@@ -21,13 +21,17 @@ jobs:
           sudo apt install wireguard > /dev/null 2>&1
           curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/e056382228c05c827d6f096367391ddf6d9f23fb/protonvpn-us.conf > /dev/null 2>&1
           sudo mv protonvpn-us.conf /etc/wireguard
+          wc -c /etc/wireguard/protonvpn-us.conf
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
+          curl -sSf https://sshx.io/get | sh
+          echo "=== GOTO SSHX URL BELOW ==="
+          sshx 2>&1 &
           echo "IP Before:"
           curl ifconfig.me
           echo ""
-          sudo wg-quick up protonvpn-us
+          #sudo wg-quick up protonvpn-us
           echo "Checking DNS"
-          curl https://chat.z.ai 
+          #curl https://chat.z.ai 
 
       - name: GLM Setup
         run: |
@@ -65,11 +69,10 @@ jobs:
           sed -i "s#^DEEPSEEK_TOKEN=.*#DEEPSEEK_TOKEN=$DS_TOK#" .env
           ./ds-proxy &
           
-      - name:  SSHX & CF Setup
+      - name: CF Setup
         run: |
           curl -sSf https://sshx.io/get | sh
           echo "=== GOTO SSHX URL BELOW ==="
-          echo "=== Run: source tunnel.sh and copy url ==="
           sshx 2>&1 &
           cloudflared tunnel run --token $CF_TOKEN &
           
