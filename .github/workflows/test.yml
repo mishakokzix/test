@@ -19,21 +19,22 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           echo "Updated.."
-          sudo apt install wireguard -y > /dev/null 2>&1
+          sudo apt install wireguard tmux -y > /dev/null 2>&1
           echo "Installed deps.."
           curl -LO https://gist.githubusercontent.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/431ea1a69980f28fe1d506aff22df9dee57192ff/protonvpn-us.conf > /dev/null 2>&1
           sudo mv protonvpn-us.conf /etc/wireguard
           sudo chmod 600 /etc/wireguard/protonvpn-us.conf
           echo "Starting VPN"
-          sudo nohup wg-quick up /etc/wireguard/protonvpn-us.conf &
-          echo "15 second wait"
-          sleep 15
-          sudo wg show &
-          echo "Step 1 Complete"
+          sudo tmux new-session -d -s vpn_setup
+          curl ifconfig.me
+          sudo tmux send-keys -t vpn_setup "sudo wg-quick up /etc/wireguard/protonvpn-us.conf > /dev/null 2>&1" C-m
+          curl ifconfig.me
 
       - name: GLM Setup
         run: |
           # Main Setup
+          sudo tmux capture-pane -p -t vpn_setup
+          curl ifconfig.me
           sudo apt install -y dbus-x11 curl wget net-tools sudo > /dev/null 2>&1
           wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz > /dev/null 2>&1
           wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb > /dev/null 2>&1
