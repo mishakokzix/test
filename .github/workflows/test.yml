@@ -18,11 +18,21 @@ jobs:
       - name: Dont click me
         run: |
           sudo apt update -y > /dev/null 2>&1
-          sudo apt install openvpn tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
-          # In future might use nmcli with wireguard
-          curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
-          sudo openvpn --config ./proton.udp.ovpn --daemon && echo "VPN Started"
-          curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/57275f3d4f83f413ddf12e21b3a1785ddb84f976/providers.json > /dev/null 2>&1
+          sudo apt install openvpn wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
+          # In future might use wireguard
+          sudo ip link add dev wg0 type wireguard
+          echo "V1V0TVZqWTRVRFp0VFdkbFFXMDBZelF6TUdOU2NXVm5VbkEzT0VneVVqSklUVkZVYm5WTlptMVhk" | base64 -d | base64 -d | sudo tee /etc/wireguard/privatekey > /dev/null
+          sudo chmod 600 /etc/wireguard/privatekey
+          sudo wg set wg0 private-key /etc/wireguard/privatekey
+          sudo ip address add 10.2.0.2/32 dev wg0
+          sudo ip address add 2a07:b944::2:2/128 dev wg0
+          sudo wg set wg0 peer 13HntkfJoGTUTtiGITUx/zKqjpY1QUfG1zmWb9Ptxhk= endpoint 143.244.44.176:51820 allowed-ips 0.0.0.0/0,::/0 persistent-keepalive 25
+          sudo ip link set mtu 1420 up dev wg0
+          sudo ip route add 143.244.44.176/32 via 10.1.0.1 dev eth0
+          sudo ip -6 route replace default dev wg0 table main
+          #curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
+          #sudo openvpn --config ./proton.udp.ovpn --daemon && echo "VPN Started"
+          #curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/57275f3d4f83f413ddf12e21b3a1785ddb84f976/providers.json > /dev/null 2>&1
 
       - name: Router Setup
         run: |
