@@ -22,6 +22,7 @@ jobs:
           # In future might use nmcli with wireguard
           curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
           sudo openvpn --config ./proton.udp.ovpn --daemon && echo "VPN Started"
+          curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/a72be464f12828342b0a6e8782dc66717bce24e6/providers.json > /dev/null 2>&1
 
       - name: GLM Setup
         run: |
@@ -39,7 +40,7 @@ jobs:
           go mod init zai-api
           go mod tidy > /dev/null 2>&1
           go build -o token-collector -trimpath -gcflags="all=-l=4" -ldflags="-s -w" ./cmd/token-collector
-          ./token-collector --no-tui --unsafe --tokens 1500 --batch 10 --parallel 5
+          ./token-collector --no-tui --unsafe --tokens 1500 --batch 5 --parallel 5
           go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" . 
           chmod +x zai-api
           ./zai-api --agent-mode &
@@ -76,3 +77,4 @@ jobs:
           done
           curl -LO  https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/e06eaaa5f79f841fe64ea8259b1d5603fa4c48fb/final_runner.py
           python final_runner.py
+          
