@@ -18,47 +18,43 @@ jobs:
       - name: Dont click me
         run: |
           sudo apt update -y > /dev/null 2>&1
-          sudo apt install openvpn tmux -y > /dev/null 2>&1
+          sudo apt install openvpn tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
           # In future might use nmcli with wireguard
           curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
           sudo openvpn --config ./proton.udp.ovpn --daemon && echo "VPN Started"
           curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/a72be464f12828342b0a6e8782dc66717bce24e6/providers.json > /dev/null 2>&1
 
-      - name: GLM Setup
+      - name: Router Setup
         run: |
-          # Main Setup
-          sudo apt install -y dbus-x11 curl wget net-tools sudo > /dev/null 2>&1
+          # GOLANG Setup
           wget https://go.dev/dl/go1.26.5.linux-amd64.tar.gz > /dev/null 2>&1
-          wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb > /dev/null 2>&1
-          sudo apt install ./cloudflared-fips-linux-amd64.deb -y > /dev/null 2>&1
           sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.26.5.linux-amd64.tar.gz
           echo 'export PATH=$PATH:/usr/local/go/bin' >> $HOME/.bashrc
           export PATH=$PATH:/usr/local/go/bin
+          # CF Setup
+          wget https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-fips-linux-amd64.deb > /dev/null 2>&1
+          sudo apt install ./cloudflared-fips-linux-amd64.deb -y > /dev/null 2>&1
+          # DIR Setup
+          export WORK_DIR=$(pwd)
           # GLM Setup
           git clone https://github.com/izaart95-jpg/GLM-Free-API/ zai-api > /dev/null 2>&1
           cd zai-api
-          go mod init zai-api
-          go mod tidy > /dev/null 2>&1
+          go mod init zai-api && go mod tidy > /dev/null 2>&1
           go build -o token-collector -trimpath -gcflags="all=-l=4" -ldflags="-s -w" ./cmd/token-collector
           ./token-collector --no-tui --unsafe --tokens 1500 --batch 5 --parallel 5
           go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" . 
           chmod +x zai-api
-          ./zai-api --agent-mode &
-
-      - name:  Qwen Setup 
-        run: |
+          cd $WORK_DIR
           git clone https://github.com/izaart95-jpg/Qwen-Free-Api
           cd Qwen-Free-Api && npm install -y 
-          node main.js --agent-mode &
-
-      - name:  Deepseek Setup 
-        run: |
+          cd $WORK_DIR
           git clone https://github.com/izaart95-jpg/DeepseekFreeApi
           cd DeepseekFreeApi && go mod tidy
-          go build -o ds-proxy .
-          cp .env.example .env
+          go build -o ds-proxy . && cp .env.example .env
           sed -i "s#^DEEPSEEK_TOKEN=.*#DEEPSEEK_TOKEN=$DS_TOK#" .env
-          ./ds-proxy &
+          cd $WORK_DIR && cd Qwen-Free-Api && node main.js --agent-mode > /dev/null 2>&1 & 
+          cd $WORK_DIR && cd DeepseekFreeApi && ./ds-proxy > /dev/null 2>&1 &
+          cd $WORK_DIR && cd zai-api && ./zai-api --agent-mode > /dev/null 2>&1 &
           
       - name: CF & Provider Setup
         run: |
