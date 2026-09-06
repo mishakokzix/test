@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           sudo apt install openvpn wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
-          curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/57275f3d4f83f413ddf12e21b3a1785ddb84f976/providers.json > /dev/null 2>&1
+          curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/4e81002bc58fc1c45cd684e952429559ecbb9c08/providers.json > /dev/null 2>&1
           echo -e "Current IP\n" && curl -s ifconfig.me
           # In future might use wireguard
           sudo ip link add dev wg0 type wireguard
