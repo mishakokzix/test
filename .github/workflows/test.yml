@@ -21,7 +21,7 @@ jobs:
           sudo apt install openvpn wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
           # In future might use wireguard
           sudo ip link add dev wg0 type wireguard
-          echo "V1V0TVZqWTRVRFp0VFdkbFFXMDBZelF6TUdOU2NXVm5VbkEzT0VneVVqSklUVkZVYm5WTlptMVhk" | base64 -d | base64 -d | sudo tee /etc/wireguard/privatekey > /dev/null
+          echo "WUtMVjY4UDZtTWdlQW00YzQzMGNScWVnUnA3OEgyUjJITVFUbnVNZm1Xdz0K" | base64 -d | sudo tee /etc/wireguard/privatekey > /dev/null
           sudo chmod 600 /etc/wireguard/privatekey
           sudo wg set wg0 private-key /etc/wireguard/privatekey
           sudo ip address add 10.2.0.2/32 dev wg0
