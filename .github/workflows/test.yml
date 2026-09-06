@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           sudo apt install openvpn wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
+          curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/57275f3d4f83f413ddf12e21b3a1785ddb84f976/providers.json > /dev/null 2>&1
           echo -e "Current IP\n" && curl ifconfig.me
           # In future might use wireguard
           sudo ip link add dev wg0 type wireguard
@@ -34,7 +35,6 @@ jobs:
           echo -e "Wireguard works\n" && curl ifconfig.me
           #curl -LO https://gist.github.com/izaart95-jpg/c95c0161fc825d597f03e44abbd149cf/raw/6629ddc7631fdf5a525204415aa76e857cccb142/proton.udp.ovpn > /dev/null 2>&1
           #sudo openvpn --config ./proton.udp.ovpn --daemon && echo "VPN Started"
-          #curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/57275f3d4f83f413ddf12e21b3a1785ddb84f976/providers.json > /dev/null 2>&1
 
       - name: Router Setup
         run: |
