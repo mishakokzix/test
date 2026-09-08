@@ -54,7 +54,8 @@ jobs:
           echo "Starting GLM Setup.."
           git clone https://github.com/izaart95-jpg/GLM-Free-API/ zai-api > /dev/null 2>&1
           cd zai-api
-          go mod init zai-api && go mod tidy > /dev/null 2>&1
+          go mod init zai-api && go mod tidy 
+          #> /dev/null 2>&1
           go build -o token-collector -trimpath -gcflags="all=-l=4" -ldflags="-s -w" ./cmd/token-collector
           ./token-collector --no-tui --unsafe --tokens 850 --batch 3 --parallel 3
           go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" . 
