@@ -76,7 +76,7 @@ jobs:
           cd $WORK_DIR && cd DeepseekFreeApi && ./ds-proxy > /dev/null 2>&1 &
           cd $WORK_DIR && cd zai-api && ./zai-api --agent-mode > /dev/null 2>&1 &
           cd $WORK_DIR && cd zai-api && curl -LO https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/tokens.sh && chmod +x tokens.sh && export SH_FILE=$(realpath tokens.sh)
-          tmux new -s shell_term -d
+          tmux new -s shell_term -d -c "$WORK_DIR/zai-api"
           tmux send-keys -t shell_term "bash $SH_FILE" Enter
           
       - name: CF & Provider Setup
