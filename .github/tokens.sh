@@ -38,7 +38,7 @@ run_binary() {
     
     # Check if the binary exited with code 0
     if [ $? -eq 0 ]; then
-        mv tokens_*sqlite $TOKEN_DIR || echo "Binary completed successfully"
+        echo "Binary completed successfully"
         # Return to the original directory
         cd - > /dev/null || return 1
         return 0
