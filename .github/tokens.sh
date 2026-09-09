@@ -36,15 +36,18 @@ run_binary() {
     # Run the binary
     ./token-collector --no-tui --unsafe --tokens 850 --batch 3 --parallel 3
     
+    # Capture the exit code
+    local exit_code=$?
+    
+    # Return to the original directory
+    cd - > /dev/null || { echo "Failed to return to original directory"; return 1; }
+    
     # Check if the binary exited with code 0
-    if [ $? -eq 0 ]; then
+    if [ $exit_code -eq 0 ]; then
         echo "Binary completed successfully"
-        # Return to the original directory
-        cd - > /dev/null || return 1
         return 0
     else
-        echo "Binary failed with non-zero exit code"
-        cd - > /dev/null || return 1
+        echo "Binary failed with exit code $exit_code"
         return 1
     fi
 }
@@ -53,15 +56,17 @@ run_binary() {
 move_sqlite() {
     local token_num=$(get_token_number)
     local new_name="tokens_${token_num}.sqlite"
+    local source_path="$TOKEN_DIR/$TOKEN_DB"
+    local dest_path="$TOKEN_DIR/$new_name"
     
-    echo "Moving $TOKEN_DB to $new_name..."
+    echo "Moving $source_path to $dest_path..."
     
-    if [ -f "$TOKEN_DB" ]; then
-        mv "$TOKEN_DB" "$new_name"
-        echo "Moved $TOKEN_DB to $new_name"
+    if [ -f "$source_path" ]; then
+        mv "$source_path" "$dest_path"
+        echo "Moved $source_path to $dest_path"
         return 0
     else
-        echo "Error: $TOKEN_DB not found in $TOKEN_DIR"
+        echo "Error: $source_path not found"
         return 1
     fi
 }
@@ -70,7 +75,7 @@ move_sqlite() {
 send_curl() {
     local token_num=$(get_token_number)
     local db_path="$TOKEN_DIR/tokens_${token_num}.sqlite"
-    local db_path_real=$(realpath "$db_path")
+    local db_path_real=$(realpath "$db_path" 2>/dev/null || echo "$db_path")
     
     echo "Sending curl request for $db_path..."
     
