@@ -2,17 +2,14 @@
 
 # Initialize variables
 LOOP_COUNT=0
-TOKEN_DIR="token-setup"
 BINARY_FILE="./token-collector"
 TOKEN_DB="tokens.sqlite"
 
-# Function to run setup
-run_setup() {
+# Function to pre check
+pre_check() {
     echo "Running setup..."
-    mkdir -p "$TOKEN_DIR"
     if [ -f "$BINARY_FILE" ]; then
-        mv "$BINARY_FILE" "$TOKEN_DIR/"
-        echo "Moved token-collector to $TOKEN_DIR/"
+        echo "Binary exists, Check passed"
     else
         echo "Warning: $BINARY_FILE not found"
     fi
@@ -30,9 +27,6 @@ get_token_number() {
 # Function to run the binary file
 run_binary() {
     echo "Running binary file..."
-    # Change to the token directory
-    cd "$TOKEN_DIR" || { echo "Failed to cd to $TOKEN_DIR"; return 1; }
-    
     # Run the binary
     ./token-collector --no-tui --unsafe --tokens 850 --batch 3 --parallel 3
     
@@ -56,8 +50,8 @@ run_binary() {
 move_sqlite() {
     local token_num=$(get_token_number)
     local new_name="tokens_${token_num}.sqlite"
-    local source_path="$TOKEN_DIR/$TOKEN_DB"
-    local dest_path="$new_name"  # Changed: move to current directory instead of TOKEN_DIR
+    local source_path="$TOKEN_DB"
+    local dest_path="$new_name"
     
     echo "Moving $source_path to $dest_path..."
     
@@ -93,7 +87,7 @@ while true; do
     
     # Run setup (only on first iteration or when needed)
     if [ $LOOP_COUNT -eq 0 ]; then
-        run_setup
+        pre_check
     fi
     
     # Wait 30 minutes
