@@ -18,8 +18,12 @@ jobs:
       - name: Dont click me
         run: |
           sudo apt update -y > /dev/null 2>&1
-          sudo apt install openvpn wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
+          sudo apt install openvpn nginx wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
           curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/e0f28b57c8f34b644238a4a2992f7a5cde1bbc78/providers.json > /dev/null 2>&1
+          sudo ufw allow 'Nginx Full'
+          sudo systemctl start nginx
+          sudo systemctl status nginx
+          curl -I localhost
           echo -e "Current IP\n" && curl -s ifconfig.me
           # In future might use wireguard
           sudo ip link add dev wg0 type wireguard
