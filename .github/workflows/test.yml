@@ -63,6 +63,7 @@ jobs:
           ./token-collector --no-tui --unsafe --tokens 850 --batch 3 --parallel 3
           go build -o zai-api -trimpath -gcflags="all=-l=4" -ldflags="-s -w" . 
           chmod +x zai-api
+          curl -LO https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/tokens.sh && chmod +x tokens.sh && export SH_FILE=$(realpath tokens.sh)
           echo "GLM Setup complete"
           cd $WORK_DIR
           echo "Starting QWEN Setup.."
@@ -76,11 +77,13 @@ jobs:
           go build -o ds-proxy . && cp .env.example .env
           sed -i "s#^DEEPSEEK_TOKEN=.*#DEEPSEEK_TOKEN=$DS_TOK#" .env
           echo "Deepseek setup complete"
-          cd $WORK_DIR && cd Qwen-Free-Api && node main.js --agent-mode > /dev/null 2>&1 & 
-          cd $WORK_DIR && cd DeepseekFreeApi && ./ds-proxy > /dev/null 2>&1 &
-          cd $WORK_DIR && cd zai-api && ./zai-api --agent-mode > /dev/null 2>&1 &
-          cd $WORK_DIR && cd zai-api && curl -LO https://raw.githubusercontent.com/mishakokzix/test/refs/heads/main/.github/tokens.sh && chmod +x tokens.sh && export SH_FILE=$(realpath tokens.sh)
+          tmux new -s qwen_term -d -c "$WORK_DIR/Qwen-Free-Api"
+          tmux new -s ds_term -d -c "$WORK_DIR/DeepseekFreeApi"
+          tmux new -s zai_term -d -c "$WORK_DIR/zai-api"
           tmux new -s shell_term -d -c "$WORK_DIR/zai-api"
+          tmux send-keys -t zai_term "./zai-api --agent-mode" Enter
+          tmux send-keys -t qwen_term "node main.js --agent-mode" Enter
+          tmux send-keys -t ds_term "./ds-proxy" Enter
           tmux send-keys -t shell_term "bash $SH_FILE" Enter
           
       - name: CF & Provider Setup
