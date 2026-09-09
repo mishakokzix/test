@@ -30,16 +30,21 @@ get_token_number() {
 # Function to run the binary file
 run_binary() {
     echo "Running binary file..."
-    cd "$TOKEN_DIR" || exit 1
+    # Change to the token directory
+    cd "$TOKEN_DIR" || { echo "Failed to cd to $TOKEN_DIR"; return 1; }
     
+    # Run the binary
     ./token-collector --no-tui --unsafe --tokens 850 --batch 3 --parallel 3
     
     # Check if the binary exited with code 0
     if [ $? -eq 0 ]; then
         echo "Binary completed successfully"
+        # Return to the original directory
+        cd - > /dev/null || return 1
         return 0
     else
         echo "Binary failed with non-zero exit code"
+        cd - > /dev/null || return 1
         return 1
     fi
 }
@@ -89,13 +94,11 @@ while true; do
     echo "Waiting 30 minutes..."
     sleep 1800  # 30 minutes = 1800 seconds
     
-    # Run the binary file
+    # Run the binary file (it will handle its own directory changes)
     echo "Starting binary execution..."
-    cd "$TOKEN_DIR" || exit 1
     
     if run_binary; then
         # Binary completed successfully, move the SQLite file
-        cd .. || exit 1
         if move_sqlite; then
             # Send curl request
             send_curl
@@ -103,7 +106,6 @@ while true; do
             echo "Failed to move SQLite file"
         fi
     else
-        cd .. || exit 1
         echo "Binary failed, skipping move and curl"
     fi
     
