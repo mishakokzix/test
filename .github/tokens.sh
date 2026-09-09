@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Initialize variables
+WORK_DIR=$(realpath .)
 LOOP_COUNT=0
 BINARY_FILE="./token-collector"
 TOKEN_DB="tokens.sqlite"
@@ -34,8 +35,7 @@ run_binary() {
     local exit_code=$?
     
     # Return to the original directory
-    cd - > /dev/null || { echo "Failed to return to original directory"; return 1; }
-    
+    cd $WORK_DIR
     # Check if the binary exited with code 0
     if [ $exit_code -eq 0 ]; then
         echo "Binary completed successfully"
