@@ -70,13 +70,14 @@ move_sqlite() {
 send_curl() {
     local token_num=$(get_token_number)
     local db_path="$TOKEN_DIR/tokens_${token_num}.sqlite"
+    local db_path_real=$(realpath "$db_path")
     
     echo "Sending curl request for $db_path..."
     
     curl -X POST http://localhost:3001/sqlite \
         -H "Authorization: Bearer Waguri" \
         -H "Content-Type: application/json" \
-        -d "{\"db_path\": \"$db_path\"}"
+        -d "{\"db_path\": \"$db_path_real\"}"
     
     echo "" # Add newline after curl output
 }
