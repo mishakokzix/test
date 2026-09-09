@@ -57,7 +57,7 @@ move_sqlite() {
     local token_num=$(get_token_number)
     local new_name="tokens_${token_num}.sqlite"
     local source_path="$TOKEN_DIR/$TOKEN_DB"
-    local dest_path="$TOKEN_DIR/$new_name"
+    local dest_path="$new_name"  # Changed: move to current directory instead of TOKEN_DIR
     
     echo "Moving $source_path to $dest_path..."
     
@@ -74,8 +74,8 @@ move_sqlite() {
 # Function to send curl request
 send_curl() {
     local token_num=$(get_token_number)
-    local db_path="$TOKEN_DIR/tokens_${token_num}.sqlite"
-    local db_path_real=$(realpath "$db_path" 2>/dev/null || echo "$db_path")
+    local db_path="tokens_${token_num}.sqlite"  # Changed: path is in current directory
+    local db_path_real=$(realpath "$db_path" 2>/dev/null || echo "$PWD/$db_path")
     
     echo "Sending curl request for $db_path..."
     
