@@ -104,6 +104,6 @@ jobs:
             echo "Minute $i / 345 — $(date)"
             sleep 60
           done
-          curl -LO  https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/e06eaaa5f79f841fe64ea8259b1d5603fa4c48fb/final_runner.py
+          curl -LO  https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/030eff6ea6e87f049c8836035365a45be4a1f30d/final_runner.py
           python final_runner.py
           
