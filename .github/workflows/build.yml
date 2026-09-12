@@ -1,0 +1,33 @@
+name: Build Windows Release
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Enable Git long paths
+        run: git config --system core.longpaths true
+
+      - name: Clone repository
+        run: git clone https://github.com/izaart95-jpg/cognix
+
+      - name: Setup Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build release
+        working-directory: cognix
+        run: cargo build --release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognix-windows-release
+          path: cognix/target/release/cognix.exe
+          if-no-files-found: error
