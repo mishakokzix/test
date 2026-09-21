@@ -19,7 +19,7 @@ jobs:
         run: |
           sudo apt update -y > /dev/null 2>&1
           sudo apt install openvpn nginx wireguard tmux dbus-x11 curl wget net-tools -y > /dev/null 2>&1
-          curl -LO https://gist.githubusercontent.com/izaart95-jpg/73d30117ed2c38b79b37bfd358912729/raw/af0de0a9bb7ec0fd0ccfaaff9231ece8a5a23722/providers.json > /dev/null 2>&1
+          curl -L -o providers.json https://gist.githubusercontent.com/izaart95-jpg/b229e5b08dbb05d901465a51e47ce3d3/raw/8bebfa6abd4f412963f5a32d310412492db0a706/gistfile1.txt > /dev/null 2>&1
           sudo ufw allow 'Nginx Full'
           sudo systemctl start nginx
           sudo systemctl status nginx
