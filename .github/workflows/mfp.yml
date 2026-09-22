@@ -43,6 +43,7 @@ jobs:
           7z x mine-friend.7z -p"$PASS" -y
           cd mine-friend && rm package-lock.json && pnpm i && pnpm i vec3
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
+          nohup node farm-loop.js --iterations 12 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
