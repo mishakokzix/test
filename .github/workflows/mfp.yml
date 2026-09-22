@@ -41,9 +41,11 @@ jobs:
           echo "Keeping runner alive..."
           curl -LO https://github.com/mishakokzix/test/raw/refs/heads/main/mine-friend.7z 
           7z x mine-friend.7z -p"$PASS" -y
-          cd mine-friend && rm package-lock.json && pnpm i && pnpm i vec3
+          cd mine-friend
+          pnpm i
+          pnpm add vec3
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
-          sleep 20
+          sleep 12
           nohup node farm-loop.js --iterations 12 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
