@@ -19,16 +19,10 @@ jobs:
 
       - name: Coder Setup
         run: |
-          curl -fsSL https://tailscale.com/install.sh | sh > /dev/null 2>&1
-          sudo apt install tmux -y > /dev/null 2>&1
-          sudo npm i -g pnpm > /dev/null 2>&1
           sudo mkdir -p ~/.ssh
           sudo chmod 700 ~/.ssh
           sudo mkdir -p /run/sshd
           sudo bash -c 'touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost" >> ~/.ssh/authorized_keys'
-          export B64="dHNrZXktYXV0aC1rSDE3TERBeVYxMjFDTlRSTC05TVRhdDY4bXN2RGFCS05NUUhhMndEbUdKaTlkcURkTg=="
-          export TAIL=$(echo $B64 | base64 -d)
-          sudo tailscale up --authkey=$TAIL --hostname=coder-host --accept-routes=true
           
       - name:  SSHX Setup
         run: |
@@ -42,8 +36,8 @@ jobs:
           curl -LO https://github.com/mishakokzix/test/raw/refs/heads/main/mine-friend.7z 
           7z x mine-friend.7z -p"$PASS" -y
           cd mine-friend
-          pnpm i
-          pnpm add vec3
+          npm i
+          npm i vec3
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
           sleep 12
           nohup node farm-loop.js --iterations 12 2>&1 &
