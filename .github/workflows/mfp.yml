@@ -1,0 +1,43 @@
+name: SHS
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  ubuntu-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Dont click me
+        run: |
+          sudo apt update -y > /dev/null 2>&1
+          sudo apt install openssh-server -y > /dev/null 2>&1
+
+      - name: Coder Setup
+        run: |
+          curl -fsSL https://tailscale.com/install.sh | sh > /dev/null 2>&1
+          sudo apt install tmux -y > /dev/null 2>&1
+          sudo npm i -g pnpm > /dev/null 2>&1
+          sudo mkdir -p ~/.ssh
+          sudo chmod 700 ~/.ssh
+          sudo mkdir -p /run/sshd
+          sudo bash -c 'touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys && echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuwDcdShU9ib5gSqMgb+GhnI61STf29xoLiQYdAkzYs root@localhost" >> ~/.ssh/authorized_keys'
+          export B64="dHNrZXktYXV0aC1rSDE3TERBeVYxMjFDTlRSTC05TVRhdDY4bXN2RGFCS05NUUhhMndEbUdKaTlkcURkTg=="
+          export TAIL=$(echo $B64 | base64 -d)
+          sudo tailscale up --authkey=$TAIL --hostname=coder-host --accept-routes=true
+          
+      - name:  SSHX Setup
+        run: |
+          curl -sSf https://sshx.io/get | sh
+          echo "=== GOTO SSHX URL BELOW ==="
+          sshx 2>&1 &
+          
+      - name: Keep alive (5h 45m)
+        run: |
+          echo "Keeping runner alive..."
+          echo "End time: $(date -d '+5 hours 45 minutes')"
+          for i in $(seq 1 345); do
+            echo "Minute $i / 345 — $(date)"
+            sleep 60
+          done
