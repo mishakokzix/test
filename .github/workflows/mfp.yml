@@ -34,13 +34,13 @@ jobs:
         run: |
           echo "Keeping runner alive..."
           curl -LO https://github.com/mishakokzix/test/raw/refs/heads/main/mine-friend.7z 
-          7z x mine-friend.7z -p"$PASS" -y
+          7z x mine-friend.7z -p"$PASS" -y > /dev/null 2>&1
           cd mine-friend
-          npm i
-          npm i vec3
+          npm i > /dev/null 2>&1
+          npm i vec3 > /dev/null 2>&1
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
           sleep 7
-          node mf.js call ensureSkyblock
+          node mf.js call ensureSkyblock > /dev/null 2>&1
           nohup node farm-loop.js --iterations 15 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
