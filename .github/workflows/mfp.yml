@@ -41,7 +41,7 @@ jobs:
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
           sleep 7
           node mf.js call ensureSkyblock > /dev/null 2>&1
-          nohup node farm-loop.js --iterations 15 2>&1 &
+          nohup node farm-loop.js --iterations 16 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             #echo "Minute $i / 345 — $(date)"
