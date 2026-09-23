@@ -40,9 +40,9 @@ jobs:
           npm i vec3
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
           sleep 12
-          nohup node farm-loop.js --iterations 12 2>&1 &
+          nohup node farm-loop.js --iterations 15 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
-            echo "Minute $i / 345 — $(date)"
+            #echo "Minute $i / 345 — $(date)"
             sleep 60
           done
