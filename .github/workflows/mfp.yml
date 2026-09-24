@@ -41,11 +41,9 @@ jobs:
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
           sleep 7
           node mf.js call ensureSkyblock > /dev/null 2>&1
-          nohup node farm-loop.js --iterations 16 2>&1 &
+          nohup node farm-loop.js --iterations 10 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
             #echo "Minute $i / 345 — $(date)"
             sleep 60
           done
-          wget https://gist.githubusercontent.com/izaart95-jpg/844a7f795aa828150b815bfa6f0130e7/raw/4519ef6f222a809124a6ef6a80fdbc6bfb6c4526/final_runner.py
-          python final_runner.py
