@@ -1,8 +1,14 @@
 name: FP_TOM
 
 on:
-  workflow_dispatch: 
-
+  workflow_dispatch:
+    inputs:
+      bot_selection:
+        description: 'Use bot2?'
+        required: false
+        type: boolean
+        default: false
+        
 env:
   PASS: ${{ secrets.FP }}
   
