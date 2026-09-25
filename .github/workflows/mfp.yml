@@ -57,8 +57,9 @@ jobs:
         working-directory: mine-friend
         run: |
           npm i > /dev/null 2>&1 && echo 'Dependencies installed'
-          npm i vec3 > /dev/null 2>&1 echo 'Vec3 Installed'
+          npm i vec3 #> /dev/null 2>&1 echo 'Vec3 Installed'
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
+          echo Started...
           sleep 7
           node mf.js call ensureSkyblock > /dev/null 2>&1
           nohup node farm-loop.js --iterations 10 2>&1 &
