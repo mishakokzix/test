@@ -57,7 +57,7 @@ jobs:
         working-directory: mine-friend
         run: |
           npm i > /dev/null 2>&1 && echo 'Dependencies installed'
-          npm i vec3 > /dev/null 2>&1 echo 'Vec3 Installed'
+          npm i vec3 > /dev/null 2>&1 
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
           echo Started...
           sleep 7
