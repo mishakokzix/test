@@ -56,12 +56,11 @@ jobs:
       - name: Run and keep alive (5h 45m)
         working-directory: mine-friend
         run: |
-          npm i > /dev/null 2>&1 && echo 'Dependencies installed'
+          npm i > /dev/null 2>&1
           npm i vec3 > /dev/null 2>&1 
           nohup node index.js > /tmp/mine-friend.log 2>&1 &
-          echo Started...
           sleep 7
-          node mf.js call ensureSkyblock #> /dev/null 2>&1
+          node mf.js call ensureSkyblock > /dev/null 2>&1
           nohup node farm-loop.js --iterations 10 2>&1 &
           echo "End time: $(date -d '+5 hours 45 minutes')"
           for i in $(seq 1 345); do
